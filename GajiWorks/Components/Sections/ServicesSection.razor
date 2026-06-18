@@ -1,0 +1,11 @@
+<section id="services" class="section section-anchor">
+    <div class="container">
+        <SectionHeading Eyebrow="Services" Title="The right solution for where your business is now." Description="Focused options for building a stronger online presence or improving day-to-day operations." />
+        <div class="services-grid">
+            @foreach (var service in ServicePackages.All)
+            {
+                <article class="service-card service-card-compact reveal"><div class="service-number">@service.Icon</div><div><h3>@service.Title</h3><p class="best-for"><span>Best for</span> @service.BestFor</p></div></article>
+            }
+        </div>
+    </div>
+</section>

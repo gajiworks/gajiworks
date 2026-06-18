@@ -1,0 +1,36 @@
+@page "/"
+@rendermode InteractiveServer
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<PageTitle>GajiWorks | Website &amp; Business Solutions</PageTitle>
+
+<SiteHeader />
+<div class="site-shell">
+    <HeroSection />
+    <IndustrySection />
+    <ServicesSection />
+    <PortfolioSection />
+    <ProcessSection />
+    <PricingSection />
+    <ContactSection />
+</div>
+<FooterSection />
+<FloatingSideNav />
+<FloatingContact />
+
+@code {
+    private IJSObjectReference? siteModule;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        siteModule = await JS.InvokeAsync<IJSObjectReference>("import", "./site.js");
+        await siteModule.InvokeVoidAsync("initializeSiteNavigation");
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (siteModule is not null) await siteModule.DisposeAsync();
+    }
+}

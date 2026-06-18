@@ -1,0 +1,26 @@
+@{
+    var shortcuts = new[]
+    {
+        ("home", "Home"),
+        ("experience", "Experience"),
+        ("services", "Services"),
+        ("selected-work", "Selected Work"),
+        ("process", "Process"),
+        ("pricing", "Pricing"),
+        ("contact", "Contact")
+    };
+}
+
+<nav class="floating-side-nav" aria-label="Section shortcuts">
+    @foreach (var shortcut in shortcuts)
+    {
+        <a class="floating-side-link"
+           href="#@shortcut.Item1"
+           data-side-nav-link
+           aria-label="Go to @shortcut.Item2 section"
+           title="@shortcut.Item2">
+            <span class="side-nav-dot" aria-hidden="true"></span>
+            <span class="side-nav-label">@shortcut.Item2</span>
+        </a>
+    }
+</nav>

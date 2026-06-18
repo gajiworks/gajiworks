@@ -1,0 +1,41 @@
+<section id="selected-work" class="section section-muted section-anchor">
+    <div class="container">
+        <SectionHeading Eyebrow="Selected Work" Title="Solutions designed around business goals." Description="A selection of website, catalog, and operational system concepts. Live links will be added as projects are published." />
+
+        <div class="portfolio-grid">
+            @for (var index = 0; index < PortfolioProjects.All.Count; index++)
+            {
+                var project = PortfolioProjects.All[index];
+                var isExtraProject = index >= VisibleProjectCount;
+                var isHidden = isExtraProject && !showAllProjects;
+
+                <div class="portfolio-grid-item @(isHidden ? "is-hidden" : isExtraProject ? "is-revealed" : null)"
+                     aria-hidden="@(isHidden.ToString().ToLowerInvariant())">
+                    <ProjectCard Project="project" OnViewDetails="OpenProject" />
+                </div>
+            }
+        </div>
+
+        @if (PortfolioProjects.All.Count > VisibleProjectCount)
+        {
+            <div class="portfolio-toggle-wrap">
+                <button class="button button-secondary portfolio-toggle" type="button" @onclick="ToggleProjects" aria-expanded="@(showAllProjects.ToString().ToLowerInvariant())">
+                    @(showAllProjects ? "Show Less" : "Show More")
+                    <span aria-hidden="true">@(showAllProjects ? "↑" : "↓")</span>
+                </button>
+            </div>
+        }
+    </div>
+</section>
+
+<ProjectModal Project="selectedProject" OnClose="CloseProject" />
+
+@code {
+    private const int VisibleProjectCount = 3;
+    private PortfolioProject? selectedProject;
+    private bool showAllProjects;
+
+    private void ToggleProjects() => showAllProjects = !showAllProjects;
+    private void OpenProject(PortfolioProject project) => selectedProject = project;
+    private void CloseProject() => selectedProject = null;
+}

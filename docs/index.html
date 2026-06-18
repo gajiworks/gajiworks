@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GajiWorks website and business solutions portfolio.">
+    <title>GajiWorks | Website &amp; Business Solutions</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="site.js" defer></script>
+</head>
+<body>
+    <header class="site-header" data-site-header>
+        <div class="container nav-wrap">
+            <a class="brand" href="#home" aria-label="GajiWorks home"><span>Gaji</span>Works</a>
+            <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-nav-toggle><span></span><span></span><span></span></button>
+            <nav class="site-nav" aria-label="Main navigation" data-site-nav>
+                <a href="#home" data-nav-link>Home</a><a href="#experience" data-nav-link>Experience</a><a href="#services" data-nav-link>Services</a>
+                <a href="#selected-work" data-nav-link>Selected Work</a><a href="#process" data-nav-link>Process</a><a href="#pricing" data-nav-link>Pricing</a>
+                <a class="nav-cta" href="#contact" data-nav-link>Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-shell">
+        <section id="home" class="hero section-anchor">
+            <div class="hero-glow hero-glow-one"></div><div class="hero-glow hero-glow-two"></div>
+            <div class="container hero-grid">
+                <div class="hero-copy reveal">
+                    <div class="availability"><span></span> Available for New Projects</div>
+                    <p class="eyebrow">Website &amp; Business Solutions</p>
+                    <h1>Web solutions built to move your <span>business forward.</span></h1>
+                    <p class="hero-lead">Business websites, catalogs, and practical digital systems designed to build trust, present services clearly, and support better daily operations.</p>
+                    <div class="hero-actions"><a class="button button-primary" href="#selected-work">View Selected Work <span>→</span></a><a class="button button-secondary" href="#contact">Request Quote</a></div>
+                    <div class="hero-trust"><div><strong>10+</strong><span>Years of experience</span></div><div><strong>6</strong><span>Solution types</span></div><div><strong>100%</strong><span>Project focused</span></div></div>
+                </div>
+                <div class="hero-visual reveal reveal-delay">
+                    <div class="browser-card"><div class="browser-bar"><span></span><span></span><span></span><small>gajiworks.dev</small></div><div class="browser-body"><div class="mock-sidebar"><i></i><i></i><i></i><i></i></div><div class="mock-content"><div class="mock-title"></div><div class="mock-subtitle"></div><div class="mock-stats"><i></i><i></i><i></i></div><div class="mock-chart"><span></span></div></div></div></div>
+                    <div class="floating-card floating-result"><span>↗</span><div><strong>Built for results</strong><small>Clear, credible, practical</small></div></div>
+                    <div class="floating-card floating-experience"><strong>10+</strong><small>Years across industries</small></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="section section-muted industry-section section-anchor">
+            <div class="container">
+                <div class="about-grid experience-intro">
+                    <div class="about-visual reveal"><div class="experience-panel"><span>10+</span><strong>Years of practical<br>industry experience</strong></div><div class="about-lines"><i></i><i></i><i></i></div></div>
+                    <div class="about-copy reveal reveal-delay">
+                        <div class="section-heading"><span class="eyebrow">Experience</span><h2>Independent expertise, focused on your business.</h2></div>
+                        <p class="lead-copy">GajiWorks helps businesses build professional websites, catalogs, and simple business systems that improve online presence, showcase services, and support daily operations.</p>
+                        <p>Direct communication and practical recommendations are backed by more than a decade of experience across different industries.</p>
+                        <div class="value-list">
+                            <div><span>✓</span><p><strong>Direct collaboration</strong><small>You work with the person building your solution.</small></p></div>
+                            <div><span>✓</span><p><strong>Business-first thinking</strong><small>Every decision supports a clear practical goal.</small></p></div>
+                            <div><span>✓</span><p><strong>Reliable handover</strong><small>Clear review, turnover, and support options.</small></p></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="experience-industries-heading reveal"><span class="eyebrow">Industry Background</span><h3>Experience that understands real operations.</h3><p>Backed by work across retail, manufacturing, outsourcing, financial, and service-based environments.</p></div>
+                <div class="industry-grid industry-grid-compact reveal">
+                    <article class="industry-card"><span>▤</span><h3>Retail POS &amp; Inventory</h3></article>
+                    <article class="industry-card"><span>◇</span><h3>Business Brochures &amp; Service Showcases</h3></article>
+                    <article class="industry-card"><span>⚙</span><h3>Manufacturing &amp; Orthopedic Footwear</h3></article>
+                    <article class="industry-card"><span>↗</span><h3>Outsourcing &amp; Financial Systems</h3></article>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="section section-anchor">
+            <div class="container">
+                <div class="section-heading section-heading-centered"><span class="eyebrow">Services</span><h2>The right solution for where your business is now.</h2><p>Focused options for building a stronger online presence or improving day-to-day operations.</p></div>
+                <div class="services-grid" id="services-grid"></div>
+            </div>
+        </section>
+
+        <section id="selected-work" class="section section-muted section-anchor">
+            <div class="container">
+                <div class="section-heading section-heading-centered"><span class="eyebrow">Selected Work</span><h2>Solutions designed around business goals.</h2><p>A selection of website, catalog, and operational system concepts. Live links will be added as projects are published.</p></div>
+                <div class="portfolio-grid" id="portfolio-grid"></div>
+                <div class="portfolio-toggle-wrap"><button class="button button-secondary portfolio-toggle" id="portfolio-toggle" type="button" aria-expanded="false">Show More <span aria-hidden="true">↓</span></button></div>
+            </div>
+        </section>
+
+        <section id="process" class="section section-anchor">
+            <div class="container">
+                <div class="section-heading section-heading-centered"><span class="eyebrow">Work Process</span><h2>A clear path from idea to launch.</h2><p>A structured process keeps each stage focused, visible, and easy to follow.</p></div>
+                <div class="process-list process-timeline">
+                    <article class="process-step reveal"><span class="process-number">01</span><div class="process-copy"><h3>Client Intake</h3><p>Business goals, audience, content, and priorities are clarified.</p></div></article>
+                    <article class="process-step reveal"><span class="process-number">02</span><div class="process-copy"><h3>Quotation</h3><p>A clear scope, timeline, and pricing proposal is prepared.</p></div></article>
+                    <article class="process-step reveal"><span class="process-number">03</span><div class="process-copy"><h3>Design / Development</h3><p>The agreed pages, experience, and features are created.</p></div></article>
+                    <article class="process-step reveal"><span class="process-number">04</span><div class="process-copy"><h3>Testing &amp; Quality Check</h3><p>Responsiveness, forms, links, layout, and core functions are checked.</p></div></article>
+                    <article class="process-step reveal"><span class="process-number">05</span><div class="process-copy"><h3>Review &amp; Revisions</h3><p>Feedback is reviewed and included revisions are applied.</p></div></article>
+                    <article class="process-step reveal"><span class="process-number">06</span><div class="process-copy"><h3>Turnover</h3><p>The approved solution is prepared for launch and clear handover.</p></div></article>
+                    <article class="process-step reveal"><span class="process-number">07</span><div class="process-copy"><h3>Monthly Support</h3><p>Optional support keeps content and small improvements moving.</p></div></article>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="section section-muted section-anchor">
+            <div class="container">
+                <div class="section-heading section-heading-centered"><span class="eyebrow">Pricing Preview</span><h2>Practical starting points for planning.</h2><p>Every project is scoped individually. These ranges help you identify a realistic starting budget.</p></div>
+                <div class="pricing-grid" id="pricing-grid"></div>
+                <div class="pricing-notes"><p class="pricing-note pricing-note-highlight"><span>i</span> Prices are starting estimates and may be negotiable depending on scope, timeline, and package.</p><p class="pricing-note">Discounts may be available for bundled services or suitable project scopes. Final pricing also depends on content, features, hosting, domain, and third-party services.</p></div>
+            </div>
+        </section>
+
+        <section id="contact" class="section section-anchor contact-section">
+            <div class="container contact-grid">
+                <div class="contact-copy reveal">
+                    <div class="section-heading"><span class="eyebrow">Start a Project</span><h2>Tell me what your business needs.</h2><p>Share a few details and I’ll have the context needed to prepare the next steps. This demo form does not send data yet.</p></div>
+                    <div class="contact-points"><div><span>01</span><p><strong>Clear, direct communication</strong><small>No layers—you speak directly with me.</small></p></div><div><span>02</span><p><strong>Practical recommendations</strong><small>Options matched to your actual goals and budget.</small></p></div><div><span>03</span><p><strong>No-pressure inquiry</strong><small>Start with a conversation, not a commitment.</small></p></div></div>
+                </div>
+                <div class="contact-card reveal reveal-delay">
+                    <form id="inquiry-form" novalidate>
+                        <div class="form-grid">
+                            <div class="field"><label for="name">Name</label><input id="name" name="name" placeholder="Your name"><span class="validation-message" data-error="name"></span></div>
+                            <div class="field"><label for="business">Business Name</label><input id="business" name="business" placeholder="Business or brand"></div>
+                            <div class="field field-full"><label for="contact-info">Email / Messenger</label><input id="contact-info" name="contact" placeholder="How can I reach you?"><span class="validation-message" data-error="contact"></span></div>
+                            <div class="field"><label for="project-type">Project Type</label><select id="project-type" name="projectType"><option value="">Select a project</option><option>Micro / One Page</option><option>Business Website</option><option>Catalog / Showcase</option><option>Custom Web App</option><option>Web Automation &amp; Data Scraping</option></select><span class="validation-message" data-error="projectType"></span></div>
+                            <div class="field"><label for="budget">Budget Range</label><select id="budget" name="budget"><option value="">Select a range</option><option>₱8k – ₱25k</option><option>₱25k – ₱60k</option><option>₱60k – ₱120k</option><option>₱120k+</option><option>Not sure yet</option></select><span class="validation-message" data-error="budget"></span></div>
+                            <div class="field field-full"><label for="message">Message</label><textarea id="message" name="message" placeholder="Tell me about your goals, timeline, or current challenges..."></textarea><span class="validation-message" data-error="message"></span></div>
+                        </div>
+                        <button class="button button-primary submit-button" type="submit">Send Inquiry <span>→</span></button><p class="form-note">Demo only—this form is not connected to email or an API.</p>
+                    </form>
+                    <div class="success-state static-hidden" id="inquiry-success" role="status"><span>✓</span><h3>Inquiry received</h3><p>Thanks for sharing your project. This is a demo submission, so no message was sent.</p><button class="button button-secondary" id="reset-inquiry" type="button">Send another inquiry</button></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer"><div class="container footer-grid"><div><a class="brand" href="#home"><span>Gaji</span>Works</a><p>Website &amp; Business Solutions</p></div><div class="footer-links"><a href="mailto:hello@gajiworks.example">hello@gajiworks.example</a><a href="#" data-placeholder-link>Facebook / Messenger</a><a href="#" data-placeholder-link>GitHub</a></div></div><div class="container footer-bottom"><span>© <span id="copyright-year"></span> GajiWorks. All rights reserved.</span><a href="#home">Back to top ↑</a></div></footer>
+
+    <nav class="floating-side-nav" aria-label="Section shortcuts">
+        <a class="floating-side-link" href="#home" data-side-nav-link aria-label="Go to Home section" title="Home"><span class="side-nav-dot"></span><span class="side-nav-label">Home</span></a>
+        <a class="floating-side-link" href="#experience" data-side-nav-link aria-label="Go to Experience section" title="Experience"><span class="side-nav-dot"></span><span class="side-nav-label">Experience</span></a>
+        <a class="floating-side-link" href="#services" data-side-nav-link aria-label="Go to Services section" title="Services"><span class="side-nav-dot"></span><span class="side-nav-label">Services</span></a>
+        <a class="floating-side-link" href="#selected-work" data-side-nav-link aria-label="Go to Selected Work section" title="Selected Work"><span class="side-nav-dot"></span><span class="side-nav-label">Selected Work</span></a>
+        <a class="floating-side-link" href="#process" data-side-nav-link aria-label="Go to Process section" title="Process"><span class="side-nav-dot"></span><span class="side-nav-label">Process</span></a>
+        <a class="floating-side-link" href="#pricing" data-side-nav-link aria-label="Go to Pricing section" title="Pricing"><span class="side-nav-dot"></span><span class="side-nav-label">Pricing</span></a>
+        <a class="floating-side-link" href="#contact" data-side-nav-link aria-label="Go to Contact section" title="Contact"><span class="side-nav-dot"></span><span class="side-nav-label">Contact</span></a>
+    </nav>
+
+    <aside class="floating-contact" aria-label="Quick contact options">
+        <a class="floating-contact-link" href="mailto:hello@gajiworks.example" aria-label="Email GajiWorks" title="Email GajiWorks"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5h18v11H3zM4 7l8 6 8-6"></path></svg><span>Email</span></a>
+        <a class="floating-contact-link" href="tel:+630000000000" aria-label="Call GajiWorks" title="Call GajiWorks"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 3.5 10 7.8 8.2 10c1.3 2.7 3.2 4.6 5.8 5.8l2.2-1.8 4.3 2.8c-.5 2.6-2.1 3.7-4.3 3.7C9.4 19.6 4.4 14.6 3.5 7.8c0-2.2 1.1-3.8 3.7-4.3Z"></path></svg><span>Call</span></a>
+        <a class="floating-contact-link" href="https://m.me/gajiworks.demo" target="_blank" rel="noopener noreferrer" aria-label="Message GajiWorks on Messenger" title="Messenger"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c-5 0-9 3.6-9 8.1 0 2.6 1.3 4.9 3.5 6.4v2.5l2.4-1.3c1 .3 2 .5 3.1.5 5 0 9-3.6 9-8.1s-4-8.1-9-8.1Zm1 10.8-2.3-2.4-4.4 2.4 4.8-5.1 2.3 2.4 4.3-2.4-4.7 5.1Z"></path></svg><span>Messenger</span></a>
+    </aside>
+
+    <div id="project-modal-root"></div>
+</body>
+</html>

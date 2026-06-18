@@ -1,0 +1,27 @@
+@{
+    var steps = new[]
+    {
+        ("01", "Client Intake", "Business goals, audience, content, and priorities are clarified."),
+        ("02", "Quotation", "A clear scope, timeline, and pricing proposal is prepared."),
+        ("03", "Design / Development", "The agreed pages, experience, and features are created."),
+        ("04", "Testing & Quality Check", "Responsiveness, forms, links, layout, and core functions are checked."),
+        ("05", "Review & Revisions", "Feedback is reviewed and included revisions are applied."),
+        ("06", "Turnover", "The approved solution is prepared for launch and clear handover."),
+        ("07", "Monthly Support", "Optional support keeps content and small improvements moving.")
+    };
+}
+
+<section id="process" class="section section-anchor">
+    <div class="container">
+        <SectionHeading Eyebrow="Work Process" Title="A clear path from idea to launch." Description="A structured process keeps each stage focused, visible, and easy to follow." />
+        <div class="process-list process-timeline">
+            @foreach (var step in steps)
+            {
+                <article class="process-step reveal">
+                    <span class="process-number">@step.Item1</span>
+                    <div class="process-copy"><h3>@step.Item2</h3><p>@step.Item3</p></div>
+                </article>
+            }
+        </div>
+    </div>
+</section>

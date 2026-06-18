@@ -1,0 +1,89 @@
+@if (Project is not null)
+{
+    <div class="modal-backdrop" role="presentation" @onclick="Close">
+        <section class="project-modal project-modal-detailed" role="dialog" aria-modal="true" aria-labelledby="project-modal-title" @onclick:stopPropagation="true">
+            <button class="modal-close" type="button" aria-label="Close project details" @onclick="Close">×</button>
+
+            <div class="modal-gallery">
+                <div class="modal-screenshot @Project.AccentClass">
+                    <span class="project-window"><i></i><i></i><i></i></span>
+                    <div class="screenshot-layout screenshot-layout-@((selectedScreenshot % 3) + 1)">
+                        <span class="screenshot-nav"></span>
+                        <span class="screenshot-title"></span>
+                        <span class="screenshot-copy"></span>
+                        <span class="screenshot-panel screenshot-panel-one"></span>
+                        <span class="screenshot-panel screenshot-panel-two"></span>
+                    </div>
+                    <span class="screenshot-caption">@Project.Screenshots[selectedScreenshot]</span>
+                </div>
+
+                <div class="screenshot-thumbnails" aria-label="Project screenshots">
+                    @for (var index = 0; index < Project.Screenshots.Count; index++)
+                    {
+                        var screenshotIndex = index;
+                        <button class="screenshot-thumbnail @Project.AccentClass @(selectedScreenshot == index ? "active" : null)"
+                                type="button"
+                                @onclick="() => SelectScreenshot(screenshotIndex)"
+                                aria-label="View @Project.Screenshots[index] screenshot"
+                                aria-pressed="@((selectedScreenshot == index).ToString().ToLowerInvariant())">
+                            <span>@(index + 1)</span>
+                            <small>@Project.Screenshots[index]</small>
+                        </button>
+                    }
+                </div>
+            </div>
+
+            <div class="modal-copy modal-project-details">
+                <span class="project-category">@Project.Category</span>
+                <h2 id="project-modal-title">@Project.Name</h2>
+                <p>@Project.Description</p>
+
+                <div class="modal-tags" aria-label="Project tags">
+                    @foreach (var tag in Project.Tags) { <span>@tag</span> }
+                </div>
+
+                <h3>Key features</h3>
+                <ul>@foreach (var feature in Project.Features) { <li><span>✓</span>@feature</li> }</ul>
+
+                <div class="project-cost">
+                    <small>Estimated similar project cost</small>
+                    <strong>@Project.EstimatedCost</strong>
+                    <div class="pricing-tags">
+                        <span>Starting Estimate</span><span>Negotiable</span><span>Discount Available</span><span>Scope-Based</span>
+                    </div>
+                    <p>Final pricing may vary depending on scope, timeline, content, features, and support package.</p>
+                </div>
+
+                @if (HasLiveLink || HasSourceLink)
+                {
+                    <div class="hero-actions modal-actions">
+                        @if (HasLiveLink) { <a class="button button-primary" href="@Project.LiveDemoUrl" target="_blank" rel="noopener noreferrer">Live Project ↗</a> }
+                        @if (HasSourceLink) { <a class="button button-secondary" href="@Project.GitHubUrl" target="_blank" rel="noopener noreferrer">View Source</a> }
+                    </div>
+                }
+            </div>
+        </section>
+    </div>
+}
+
+@code {
+    [Parameter] public PortfolioProject? Project { get; set; }
+    [Parameter, EditorRequired] public EventCallback OnClose { get; set; }
+
+    private int selectedScreenshot;
+    private string? loadedProjectName;
+    private bool HasLiveLink => !string.IsNullOrWhiteSpace(Project?.LiveDemoUrl) && Project.LiveDemoUrl != "#";
+    private bool HasSourceLink => !string.IsNullOrWhiteSpace(Project?.GitHubUrl) && Project.GitHubUrl != "#";
+
+    protected override void OnParametersSet()
+    {
+        if (Project?.Name != loadedProjectName)
+        {
+            loadedProjectName = Project?.Name;
+            selectedScreenshot = 0;
+        }
+    }
+
+    private void SelectScreenshot(int index) => selectedScreenshot = index;
+    private Task Close() => OnClose.InvokeAsync();
+}
