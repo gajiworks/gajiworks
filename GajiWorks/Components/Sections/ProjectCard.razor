@@ -1,13 +1,16 @@
 <article class="project-card reveal">
-    <div class="project-preview @Project.AccentClass" aria-hidden="true">
-        <span class="project-window"><i></i><i></i><i></i></span>
-        <span class="project-monogram">@Project.Name[..1]</span>
+    <div class="project-card-preview">
+        <img src="@Project.CardPreviewImage" alt="@($"{Project.Name} preview")" />
     </div>
     <div class="project-content">
         <span class="project-category">@Project.Category</span>
         <h3>@Project.Name</h3>
         <p>@Project.Description</p>
         <div class="feature-tags">@foreach (var tag in Project.Tags.Take(3)) { <span>@tag</span> }</div>
+        <div class="project-price-hint">
+            <span>Similar project: <strong>@CompactEstimatedCost</strong></span>
+            <em>Negotiable</em>
+        </div>
         <button class="project-view-button" type="button" @onclick="ShowDetails">View Project <span aria-hidden="true">→</span></button>
     </div>
 </article>
@@ -15,5 +18,6 @@
 @code {
     [Parameter, EditorRequired] public PortfolioProject Project { get; set; } = default!;
     [Parameter, EditorRequired] public EventCallback<PortfolioProject> OnViewDetails { get; set; }
+    private string CompactEstimatedCost => Project.EstimatedCost.Replace(",000", "k", StringComparison.Ordinal);
     private Task ShowDetails() => OnViewDetails.InvokeAsync(Project);
 }

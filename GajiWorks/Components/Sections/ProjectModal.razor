@@ -1,3 +1,6 @@
+@implements IDisposable
+@inject IJSRuntime JS
+
 @if (Project is not null)
 {
     <div class="modal-backdrop" role="presentation" @onclick="Close">
@@ -5,29 +8,54 @@
             <button class="modal-close" type="button" aria-label="Close project details" @onclick="Close">×</button>
 
             <div class="modal-gallery">
-                <div class="modal-screenshot @Project.AccentClass">
-                    <span class="project-window"><i></i><i></i><i></i></span>
-                    <div class="screenshot-layout screenshot-layout-@((selectedScreenshot % 3) + 1)">
-                        <span class="screenshot-nav"></span>
-                        <span class="screenshot-title"></span>
-                        <span class="screenshot-copy"></span>
-                        <span class="screenshot-panel screenshot-panel-one"></span>
-                        <span class="screenshot-panel screenshot-panel-two"></span>
-                    </div>
-                    <span class="screenshot-caption">@Project.Screenshots[selectedScreenshot]</span>
+                <div class="modal-screenshot @Project.AccentClass @(IsImageScreenshot(Project.Screenshots[selectedScreenshot]) ? "has-image" : IsVideoPreview(Project.Screenshots[selectedScreenshot]) ? "has-video" : null)">
+                    @if (IsImageScreenshot(Project.Screenshots[selectedScreenshot]))
+                    {
+                        <img class="modal-screenshot-image" src="@Project.Screenshots[selectedScreenshot]" alt="@Project.Name - @GetScreenshotLabel(Project.Screenshots[selectedScreenshot], selectedScreenshot)" />
+                    }
+                    else if (IsVideoPreview(Project.Screenshots[selectedScreenshot]))
+                    {
+                        <video @ref="videoElement" class="modal-video" controls autoplay muted preload="metadata" playsinline poster="@GetVideoPoster()" @onended="HandleVideoEnded">
+                            <source src="@Project.Screenshots[selectedScreenshot]" type="video/mp4" />
+                            Your browser does not support video playback.
+                        </video>
+                    }
+                    else
+                    {
+                        <span class="project-window"><i></i><i></i><i></i></span>
+                        <div class="screenshot-layout screenshot-layout-@((selectedScreenshot % 3) + 1)">
+                            <span class="screenshot-nav"></span>
+                            <span class="screenshot-title"></span>
+                            <span class="screenshot-copy"></span>
+                            <span class="screenshot-panel screenshot-panel-one"></span>
+                            <span class="screenshot-panel screenshot-panel-two"></span>
+                        </div>
+                    }
+                    <span class="screenshot-caption">@GetScreenshotLabel(Project.Screenshots[selectedScreenshot], selectedScreenshot)</span>
                 </div>
 
-                <div class="screenshot-thumbnails" aria-label="Project screenshots">
+                <div class="screenshot-thumbnails" aria-label="Project media">
                     @for (var index = 0; index < Project.Screenshots.Count; index++)
                     {
                         var screenshotIndex = index;
                         <button class="screenshot-thumbnail @Project.AccentClass @(selectedScreenshot == index ? "active" : null)"
                                 type="button"
                                 @onclick="() => SelectScreenshot(screenshotIndex)"
-                                aria-label="View @Project.Screenshots[index] screenshot"
+                                aria-label="View @GetScreenshotLabel(Project.Screenshots[index], index)"
                                 aria-pressed="@((selectedScreenshot == index).ToString().ToLowerInvariant())">
-                            <span>@(index + 1)</span>
-                            <small>@Project.Screenshots[index]</small>
+                            @if (IsImageScreenshot(Project.Screenshots[index]))
+                            {
+                                <img src="@Project.Screenshots[index]" alt="" />
+                            }
+                            else if (IsVideoPreview(Project.Screenshots[index]))
+                            {
+                                <span class="video-thumbnail-icon" aria-hidden="true">▶</span>
+                            }
+                            else
+                            {
+                                <span>@(index + 1)</span>
+                            }
+                            <small>@GetScreenshotLabel(Project.Screenshots[index], index)</small>
                         </button>
                     }
                 </div>
@@ -72,8 +100,18 @@
 
     private int selectedScreenshot;
     private string? loadedProjectName;
+    private CancellationTokenSource? mediaCycleCancellation;
+    private ElementReference videoElement;
     private bool HasLiveLink => !string.IsNullOrWhiteSpace(Project?.LiveDemoUrl) && Project.LiveDemoUrl != "#";
     private bool HasSourceLink => !string.IsNullOrWhiteSpace(Project?.GitHubUrl) && Project.GitHubUrl != "#";
+    private static bool IsImageScreenshot(string screenshot) => screenshot.EndsWith(".png", StringComparison.OrdinalIgnoreCase) || screenshot.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) || screenshot.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase) || screenshot.EndsWith(".webp", StringComparison.OrdinalIgnoreCase);
+    private static bool IsVideoPreview(string screenshot) => screenshot.EndsWith(".mp4", StringComparison.OrdinalIgnoreCase) || screenshot.EndsWith(".webm", StringComparison.OrdinalIgnoreCase);
+    private string? GetVideoPoster() => Project?.Screenshots.FirstOrDefault(IsImageScreenshot);
+    private string GetScreenshotLabel(string screenshot, int index)
+    {
+        if (IsVideoPreview(screenshot)) return "Video preview";
+        return IsImageScreenshot(screenshot) ? $"Project image {index + 1}" : screenshot;
+    }
 
     protected override void OnParametersSet()
     {
@@ -81,9 +119,71 @@
         {
             loadedProjectName = Project?.Name;
             selectedScreenshot = 0;
+            StartMediaCycle();
         }
     }
 
-    private void SelectScreenshot(int index) => selectedScreenshot = index;
-    private Task Close() => OnClose.InvokeAsync();
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (Project?.Screenshots.Count is not > 0 || !IsVideoPreview(Project.Screenshots[selectedScreenshot])) return;
+        await JS.InvokeVoidAsync("gajiWorksMedia.playMuted", videoElement);
+    }
+
+    private void SelectScreenshot(int index)
+    {
+        selectedScreenshot = index;
+        StartMediaCycle();
+    }
+
+    private void HandleVideoEnded() => MoveToNextMedia();
+
+    private void MoveToNextMedia()
+    {
+        if (Project?.Screenshots.Count is null or 0) return;
+        selectedScreenshot = (selectedScreenshot + 1) % Project.Screenshots.Count;
+        StartMediaCycle();
+    }
+
+    private void StartMediaCycle()
+    {
+        CancelMediaCycle();
+        if (Project?.Screenshots.Count is null or 0 || !IsImageScreenshot(Project.Screenshots[selectedScreenshot])) return;
+
+        mediaCycleCancellation = new CancellationTokenSource();
+        _ = AdvanceImageAfterDelayAsync(selectedScreenshot, mediaCycleCancellation.Token);
+    }
+
+    private async Task AdvanceImageAfterDelayAsync(int expectedIndex, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await Task.Delay(2500, cancellationToken);
+            await InvokeAsync(() =>
+            {
+                if (cancellationToken.IsCancellationRequested || Project is null || selectedScreenshot != expectedIndex) return;
+                MoveToNextMedia();
+                StateHasChanged();
+            });
+        }
+        catch (OperationCanceledException)
+        {
+        }
+    }
+
+    private void CancelMediaCycle()
+    {
+        mediaCycleCancellation?.Cancel();
+        mediaCycleCancellation?.Dispose();
+        mediaCycleCancellation = null;
+    }
+
+    private Task Close()
+    {
+        CancelMediaCycle();
+        selectedScreenshot = 0;
+        loadedProjectName = null;
+        return OnClose.InvokeAsync();
+    }
+
+    public void Dispose() => CancelMediaCycle();
 }

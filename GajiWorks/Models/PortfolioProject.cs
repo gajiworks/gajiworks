@@ -10,4 +10,5 @@ public sealed record PortfolioProject(
     string EstimatedCost,
     string AccentClass,
     string LiveDemoUrl = "#",
-    string GitHubUrl = "#");
+    string GitHubUrl = "#",
+    string CardPreviewImage = "");

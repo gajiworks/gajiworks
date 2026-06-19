@@ -17,15 +17,30 @@ const pricing = [
 ];
 
 const projects = [
-    { name:"Northline Manufacturing", category:"Business Profile / Catalog", description:"A polished company profile that presents capabilities, certifications, and inquiry paths for prospective partners.", tags:["Responsive","Business Profile","Lead Generation"], features:["Service overview","Project gallery","Quote inquiry"], screenshots:["Homepage","Capabilities","Inquiry Flow"], cost:"₱25,000 – ₱45,000", accent:"project-blue", live:"", source:"" },
-    { name:"Harbor & Pine Living", category:"Advanced Showcase", description:"A calm, image-led furniture catalog designed to make collections easy to browse and compare.", tags:["Product Catalog","Mobile Ready","Visual Showcase"], features:["Category browsing","Product details","Mobile catalog"], screenshots:["Collection View","Product Details","Mobile Catalog"], cost:"₱45,000 – ₱90,000", accent:"project-cyan", live:"", source:"" },
-    { name:"LedgerPoint Advisory", category:"Business Starter Website", description:"A trust-focused service website that explains financial solutions clearly and drives consultation requests.", tags:["Professional Services","Trust Focused","Consultation"], features:["Service pages","Trust indicators","Consultation form"], screenshots:["Service Overview","Advisory Details","Consultation Form"], cost:"₱12,000 – ₱25,000", accent:"project-violet", live:"", source:"" },
-    { name:"SoleForm International", category:"Advanced Showcase", description:"An international orthopedic footwear showcase built around comfort, craftsmanship, and distributor support.", tags:["International","Product Showcase","Partner Support"], features:["Product showcase","Partner information","Global inquiries"], screenshots:["Brand Story","Product Range","Partner Portal"], cost:"₱45,000 – ₱90,000", accent:"project-teal", live:"", source:"" },
-    { name:"StockPilot", category:"Business System", description:"A focused business dashboard concept for monitoring stock, purchase activity, and low-quantity items.", tags:["Web Application","Inventory","Reporting"], features:["Stock overview","Activity tracking","Business reports"], screenshots:["Dashboard","Stock Records","Reports"], cost:"₱80,000+", accent:"project-indigo", live:"", source:"" },
-    { name:"FieldFlow Services", category:"Business System", description:"A lightweight operations portal concept that keeps requests, schedules, and job updates organized.", tags:["Operations","Scheduling","Status Tracking"], features:["Request intake","Schedule view","Status updates"], screenshots:["Request Board","Schedule","Job Details"], cost:"₱80,000+", accent:"project-sky", live:"", source:"" }
+    { name:"Transformer & Electrical Business Website", category:"Business Profile / Catalog", description:"A premium business website for an electrical and transformer-related service provider, built to showcase services, project proof, company information, and quotation/contact options.", tags:["Electrical Business","Transformer Services","Business Website","Service Showcase","Company Profile","Responsive UI","Lead Generation"], features:["Premium hero section","Services navigation","Project showcase","Company profile/about section","Floating contact buttons","Quotation/contact CTA","Responsive desktop, tablet, and mobile layout"], screenshots:["images/projects/transformer-business-1.png","images/projects/transformer-business-2.png","images/projects/transformer-business-3.png","images/projects/transformer-business-preview.mp4"], cardPreview:"images/projects/card-transformer-preview.png", cost:"₱25,000 – ₱45,000", accent:"project-blue", live:"https://gabborcena12.github.io/PularWorks/", source:"" },
+    { name:"Real Estate Property Showcase", category:"Advanced Showcase", description:"A responsive real estate showcase website for browsing property listings, details, media updates, progress cards, agent information, and inquiry options.", tags:["Real Estate Website","Property Showcase","Advanced Catalog","Modal Gallery","Inquiry Form","Floating Navigation","Responsive UI"], features:["Featured property cards","Property detail modal with gallery","News / Updates cards","Site Progress cards","Show More / Show Less behavior","Floating side navigation","Inquiry form","Agent/contact section","Responsive desktop, tablet, and mobile layout"], screenshots:["images/projects/real-estate-1.png","images/projects/real-estate-2.png","images/projects/real-estate-3.png","images/projects/real-estate-preview.mp4"], cardPreview:"images/projects/card-real-estate-preview.png", cost:"₱45,000 – ₱90,000", accent:"project-cyan", live:"https://gabborcena12.github.io/DMCIWorks/", source:"" },
+    { name:"Digital E-Wallet Platform", category:"Business System", description:"A responsive digital wallet platform designed for secure transfers, QR-based payments, transaction records, account settings, and customer support.", tags:["Digital Wallet","Secure Transfers","QR Payments","Transaction History","Account Security","Responsive UI","Customer Support"], features:["Wallet dashboard","Secure pay and transfer flow","QR request and scan tools","Transaction history and receipts","Profile and security settings","Verification and authenticator options","Responsive tablet and mobile layout"], screenshots:["images/projects/digital-wallet-1.png","images/projects/digital-wallet-2.png","images/projects/digital-wallet-3.png","images/projects/digital-wallet-preview.mp4"], cardPreview:"images/projects/card-digital-wallet-preview.png", cost:"₱80,000+", accent:"project-violet", live:"", source:"" },
+    { name:"POS & Inventory Backoffice", category:"Business System", description:"An integrated point-of-sale and inventory backoffice system for product sales, stock monitoring, transaction history, reporting, and day-to-day store operations.", tags:["Point of Sale","Inventory Management","Backoffice System","Transaction Records","Stock Monitoring","Business Reports","Responsive UI"], features:["Product search and cart","Checkout and payment flow","Inventory and batch tracking","Transaction history and void controls","Stock preparation workflow","Reports and user management","Responsive operations dashboard"], screenshots:["images/projects/pos-inventory-1.png","images/projects/pos-inventory-2.png","images/projects/pos-inventory-3.png","images/projects/pos-inventory-preview.mp4"], cardPreview:"images/projects/card-pos-inventory-preview.png", cost:"₱80,000+", accent:"project-teal", live:"", source:"" }
 ];
 
 const escapeHtml = value => String(value).replace(/[&<>'"]/g, character => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;","\"":"&quot;"})[character]);
+const isImageScreenshot = screenshot => /\.(png|jpe?g|webp)$/i.test(screenshot);
+const isVideoPreview = screenshot => /\.(mp4|webm)$/i.test(screenshot);
+const screenshotLabel = (screenshot, index) => isVideoPreview(screenshot) ? "Video preview" : isImageScreenshot(screenshot) ? `Project image ${index + 1}` : screenshot;
+const compactEstimatedCost = cost => cost.replace(/,000/g, "k");
+
+function screenshotMarkup(project, index) {
+    const screenshot = project.screenshots[index];
+    if (isImageScreenshot(screenshot)) {
+        return `<img class="modal-screenshot-image" src="${escapeHtml(screenshot)}" alt="${escapeHtml(`${project.name} - ${screenshotLabel(screenshot, index)}`)}"><span class="screenshot-caption">${escapeHtml(screenshotLabel(screenshot, index))}</span>`;
+    }
+    if (isVideoPreview(screenshot)) {
+        const poster = project.screenshots.find(isImageScreenshot) || "";
+        return `<video class="modal-video" controls autoplay muted preload="metadata" playsinline poster="${escapeHtml(poster)}"><source src="${escapeHtml(screenshot)}" type="video/mp4">Your browser does not support video playback.</video><span class="screenshot-caption">Video preview</span>`;
+    }
+
+    return `<span class="project-window"><i></i><i></i><i></i></span><div class="screenshot-layout screenshot-layout-${(index % 3) + 1}"><span class="screenshot-nav"></span><span class="screenshot-title"></span><span class="screenshot-copy"></span><span class="screenshot-panel screenshot-panel-one"></span><span class="screenshot-panel screenshot-panel-two"></span></div><span class="screenshot-caption">${escapeHtml(screenshot)}</span>`;
+}
 
 function renderServices() {
     document.querySelector("#services-grid").innerHTML = services.map(([number, title, bestFor]) => `
@@ -45,11 +60,12 @@ function renderPricing() {
 }
 
 function projectCard(project, index) {
-    return `<div class="portfolio-grid-item ${index >= 3 ? "is-hidden" : ""}" aria-hidden="${index >= 3}">
+    return `<div class="portfolio-grid-item ${index >= 4 ? "is-hidden" : ""}" aria-hidden="${index >= 4}">
         <article class="project-card reveal">
-            <div class="project-preview ${project.accent}" aria-hidden="true"><span class="project-window"><i></i><i></i><i></i></span><span class="project-monogram">${escapeHtml(project.name[0])}</span></div>
+            <div class="project-card-preview"><img src="${escapeHtml(project.cardPreview)}" alt="${escapeHtml(`${project.name} preview`)}"></div>
             <div class="project-content"><span class="project-category">${escapeHtml(project.category)}</span><h3>${escapeHtml(project.name)}</h3><p>${escapeHtml(project.description)}</p>
-                <div class="feature-tags">${project.tags.map(tag => `<span>${escapeHtml(tag)}</span>`).join("")}</div>
+                <div class="feature-tags">${project.tags.slice(0, 3).map(tag => `<span>${escapeHtml(tag)}</span>`).join("")}</div>
+                <div class="project-price-hint"><span>Similar project: <strong>${escapeHtml(compactEstimatedCost(project.cost))}</strong></span><em>Negotiable</em></div>
                 <button class="project-view-button" type="button" data-project-index="${index}">View Project <span aria-hidden="true">→</span></button>
             </div>
         </article>
@@ -61,16 +77,45 @@ function renderProjects() {
     document.querySelectorAll("[data-project-index]").forEach(button => button.addEventListener("click", () => openProject(Number(button.dataset.projectIndex))));
 }
 
+let mediaAdvanceTimer;
+
+function stopMediaCycle() {
+    window.clearTimeout(mediaAdvanceTimer);
+    mediaAdvanceTimer = undefined;
+    document.querySelector(".modal-video")?.pause();
+}
+
+function startMediaCycle(project, index) {
+    stopMediaCycle();
+    const screenshot = project.screenshots[index];
+    if (isImageScreenshot(screenshot)) {
+        mediaAdvanceTimer = window.setTimeout(() => setScreenshot(project, (index + 1) % project.screenshots.length), 2500);
+        return;
+    }
+
+    if (isVideoPreview(screenshot)) {
+        const video = document.querySelector(".modal-video");
+        if (!video) return;
+        video.muted = true;
+        video.addEventListener("ended", () => setScreenshot(project, (index + 1) % project.screenshots.length), { once: true });
+        video.play().catch(() => { });
+    }
+}
+
 function setScreenshot(project, index) {
     const modal = document.querySelector(".project-modal");
     if (!modal) return;
-    modal.querySelector(".screenshot-layout").className = `screenshot-layout screenshot-layout-${(index % 3) + 1}`;
-    modal.querySelector(".screenshot-caption").textContent = project.screenshots[index];
+    stopMediaCycle();
+    const screenshot = project.screenshots[index];
+    const preview = modal.querySelector(".modal-screenshot");
+    preview.className = `modal-screenshot ${project.accent} ${isImageScreenshot(screenshot) ? "has-image" : isVideoPreview(screenshot) ? "has-video" : ""}`;
+    preview.innerHTML = screenshotMarkup(project, index);
     modal.querySelectorAll(".screenshot-thumbnail").forEach((button, buttonIndex) => {
         const active = buttonIndex === index;
         button.classList.toggle("active", active);
         button.setAttribute("aria-pressed", String(active));
     });
+    startMediaCycle(project, index);
 }
 
 function openProject(index) {
@@ -84,11 +129,8 @@ function openProject(index) {
         <section class="project-modal project-modal-detailed" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
             <button class="modal-close" type="button" aria-label="Close project details">×</button>
             <div class="modal-gallery">
-                <div class="modal-screenshot ${project.accent}"><span class="project-window"><i></i><i></i><i></i></span>
-                    <div class="screenshot-layout screenshot-layout-1"><span class="screenshot-nav"></span><span class="screenshot-title"></span><span class="screenshot-copy"></span><span class="screenshot-panel screenshot-panel-one"></span><span class="screenshot-panel screenshot-panel-two"></span></div>
-                    <span class="screenshot-caption">${escapeHtml(project.screenshots[0])}</span>
-                </div>
-                <div class="screenshot-thumbnails" aria-label="Project screenshots">${project.screenshots.map((shot, shotIndex) => `<button class="screenshot-thumbnail ${project.accent} ${shotIndex === 0 ? "active" : ""}" type="button" data-screenshot-index="${shotIndex}" aria-label="View ${escapeHtml(shot)} screenshot" aria-pressed="${shotIndex === 0}"><span>${shotIndex + 1}</span><small>${escapeHtml(shot)}</small></button>`).join("")}</div>
+                <div class="modal-screenshot ${project.accent} ${isImageScreenshot(project.screenshots[0]) ? "has-image" : isVideoPreview(project.screenshots[0]) ? "has-video" : ""}">${screenshotMarkup(project, 0)}</div>
+                <div class="screenshot-thumbnails" aria-label="Project media">${project.screenshots.map((shot, shotIndex) => `<button class="screenshot-thumbnail ${project.accent} ${shotIndex === 0 ? "active" : ""}" type="button" data-screenshot-index="${shotIndex}" aria-label="View ${escapeHtml(screenshotLabel(shot, shotIndex))}" aria-pressed="${shotIndex === 0}">${isImageScreenshot(shot) ? `<img src="${escapeHtml(shot)}" alt="">` : isVideoPreview(shot) ? `<span class="video-thumbnail-icon" aria-hidden="true">▶</span>` : `<span>${shotIndex + 1}</span>`}<small>${escapeHtml(screenshotLabel(shot, shotIndex))}</small></button>`).join("")}</div>
             </div>
             <div class="modal-copy modal-project-details"><span class="project-category">${escapeHtml(project.category)}</span><h2 id="project-modal-title">${escapeHtml(project.name)}</h2><p>${escapeHtml(project.description)}</p>
                 <div class="modal-tags" aria-label="Project tags">${project.tags.map(tag => `<span>${escapeHtml(tag)}</span>`).join("")}</div>
@@ -104,9 +146,11 @@ function openProject(index) {
     backdrop.querySelector(".modal-close").addEventListener("click", closeProject);
     backdrop.querySelectorAll("[data-screenshot-index]").forEach(button => button.addEventListener("click", () => setScreenshot(project, Number(button.dataset.screenshotIndex))));
     backdrop.querySelector(".modal-close").focus();
+    startMediaCycle(project, 0);
 }
 
 function closeProject() {
+    stopMediaCycle();
     document.querySelector("#project-modal-root").innerHTML = "";
 }
 
@@ -116,7 +160,7 @@ function initializePortfolioToggle() {
     toggle.addEventListener("click", () => {
         expanded = !expanded;
         document.querySelectorAll(".portfolio-grid-item").forEach((item, index) => {
-            if (index < 3) return;
+            if (index < 4) return;
             item.classList.toggle("is-hidden", !expanded);
             item.classList.toggle("is-revealed", expanded);
             item.setAttribute("aria-hidden", String(!expanded));
