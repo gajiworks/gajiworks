@@ -17,6 +17,20 @@
 @media (max-width:480px){.container{width:calc(100% - 24px)}.section-heading{margin-bottom:34px}.hero{padding-top:105px}.hero-actions{flex-direction:column}.hero-actions .button{width:100%}.hero-trust{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.hero-trust strong{font-size:1.05rem}.hero-trust span{font-size:.62rem}.hero-visual{width:100%}.mock-content{padding:25px 18px}.mock-sidebar{padding-inline:9px}.floating-card{position:relative;inset:auto;margin:10px 0 0}.floating-experience{display:none}.industry-grid{grid-template-columns:1fr 1fr;gap:9px}.industry-card{padding:18px 14px}.industry-card h3{font-size:.78rem}.service-card,.pricing-card,.project-content{padding:22px}.modal-backdrop{padding:10px}.project-modal{max-height:calc(100dvh - 20px)}.modal-copy{padding:24px 20px}.footer-bottom{flex-direction:column;gap:8px}.pricing-note{align-items:flex-start;text-align:left}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.button,.service-card,.project-card,.industry-card{transition:none}}
 
+/* StaticForms-powered project inquiry refinements. */
+.contact-helper{margin:-28px 0 0;color:#c4d0e2;font-size:1rem;max-width:640px}
+.field label span{margin-left:6px;color:#6f9fff;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.honeypot-field{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important}
+.form-error{display:none;margin:16px 0 0;padding:10px 12px;border:1px solid rgba(255,120,140,.28);border-radius:10px;background:rgba(255,92,118,.08);color:#ffb8c2;font-size:.82rem;text-align:center}
+.form-error.is-visible{display:block}
+.inquiry-form.is-submitting{opacity:.86}
+.inquiry-form button[disabled]{cursor:not-allowed;opacity:.72;transform:none}
+.static-hidden{display:none!important}
+.validation-message:empty{display:none}
+
+@media (max-width:980px){.contact-helper{margin-top:-18px}}
+@media (max-width:760px){.contact-helper{font-size:.94rem}.field label span{display:block;margin:2px 0 0}.contact-card{padding:22px}}
+
 /* Requested hero, pricing, and quick-contact refinements. */
 .services-grid .service-card:last-child{grid-column:auto}
 .hero-grid{grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);gap:clamp(38px,5vw,72px)}

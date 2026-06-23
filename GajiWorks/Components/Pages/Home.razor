@@ -27,6 +27,7 @@
         if (!firstRender) return;
         siteModule = await JS.InvokeAsync<IJSObjectReference>("import", "./site.js");
         await siteModule.InvokeVoidAsync("initializeSiteNavigation");
+        await siteModule.InvokeVoidAsync("initializeInquiryForm");
     }
 
     public async ValueTask DisposeAsync()

@@ -85,7 +85,7 @@
                 @if (HasLiveLink || HasSourceLink)
                 {
                     <div class="hero-actions modal-actions">
-                        @if (HasLiveLink) { <a class="button button-primary" href="@Project.LiveDemoUrl" target="_blank" rel="noopener noreferrer">Live Project ↗</a> }
+                        @if (HasLiveLink) { <a class="button button-primary" href="@Project.LiveDemoUrl" target="_blank" rel="noopener noreferrer">@LiveProjectLabel ↗</a> }
                         @if (HasSourceLink) { <a class="button button-secondary" href="@Project.GitHubUrl" target="_blank" rel="noopener noreferrer">View Source</a> }
                     </div>
                 }
@@ -104,6 +104,7 @@
     private ElementReference videoElement;
     private bool HasLiveLink => !string.IsNullOrWhiteSpace(Project?.LiveDemoUrl) && Project.LiveDemoUrl != "#";
     private bool HasSourceLink => !string.IsNullOrWhiteSpace(Project?.GitHubUrl) && Project.GitHubUrl != "#";
+    private string LiveProjectLabel => Project?.Name.Contains("Clinic", StringComparison.OrdinalIgnoreCase) == true ? "View Live Project" : "Live Project";
     private static bool IsImageScreenshot(string screenshot) => screenshot.EndsWith(".png", StringComparison.OrdinalIgnoreCase) || screenshot.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) || screenshot.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase) || screenshot.EndsWith(".webp", StringComparison.OrdinalIgnoreCase);
     private static bool IsVideoPreview(string screenshot) => screenshot.EndsWith(".mp4", StringComparison.OrdinalIgnoreCase) || screenshot.EndsWith(".webm", StringComparison.OrdinalIgnoreCase);
     private string? GetVideoPoster() => Project?.Screenshots.FirstOrDefault(IsImageScreenshot);

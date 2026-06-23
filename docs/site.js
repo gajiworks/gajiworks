@@ -21,7 +21,7 @@ const projects = [
     { name:"Real Estate Property Showcase", category:"Advanced Showcase", description:"A responsive real estate showcase website for browsing property listings, details, media updates, progress cards, agent information, and inquiry options.", tags:["Real Estate Website","Property Showcase","Advanced Catalog","Modal Gallery","Inquiry Form","Floating Navigation","Responsive UI"], features:["Featured property cards","Property detail modal with gallery","News / Updates cards","Site Progress cards","Show More / Show Less behavior","Floating side navigation","Inquiry form","Agent/contact section","Responsive desktop, tablet, and mobile layout"], screenshots:["images/projects/real-estate-1.png","images/projects/real-estate-2.png","images/projects/real-estate-3.png","images/projects/real-estate-preview.mp4"], cardPreview:"images/projects/card-real-estate-preview.png", cost:"₱45,000 – ₱90,000", accent:"project-cyan", live:"https://gabborcena12.github.io/DMCIWorks/", source:"" },
     { name:"Digital E-Wallet Platform", category:"Business System", description:"A responsive digital wallet platform designed for secure transfers, QR-based payments, transaction records, account settings, and customer support.", tags:["Digital Wallet","Secure Transfers","QR Payments","Transaction History","Account Security","Responsive UI","Customer Support"], features:["Wallet dashboard","Secure pay and transfer flow","QR request and scan tools","Transaction history and receipts","Profile and security settings","Verification and authenticator options","Responsive tablet and mobile layout"], screenshots:["images/projects/digital-wallet-1.png","images/projects/digital-wallet-2.png","images/projects/digital-wallet-3.png","images/projects/digital-wallet-preview.mp4"], cardPreview:"images/projects/card-digital-wallet-preview.png", cost:"₱80,000+", accent:"project-violet", live:"", source:"" },
     { name:"POS & Inventory Backoffice", category:"Business System", description:"An integrated point-of-sale and inventory backoffice system for product sales, stock monitoring, transaction history, reporting, and day-to-day store operations.", tags:["Point of Sale","Inventory Management","Backoffice System","Transaction Records","Stock Monitoring","Business Reports","Responsive UI"], features:["Product search and cart","Checkout and payment flow","Inventory and batch tracking","Transaction history and void controls","Stock preparation workflow","Reports and user management","Responsive operations dashboard"], screenshots:["images/projects/pos-inventory-1.png","images/projects/pos-inventory-2.png","images/projects/pos-inventory-3.png","images/projects/pos-inventory-preview.mp4"], cardPreview:"images/projects/card-pos-inventory-preview.png", cost:"₱80,000+", accent:"project-teal", live:"", source:"" },
-    { name:"Women’s Clinic Website", category:"Healthcare / OB-GYN Clinic Website", description:"A professional women’s clinic website designed to present clinic services, doctor information, schedule, FAQs, testimonials, clinic environment visuals, and appointment/contact inquiry in a clean and patient-friendly layout.", tags:["Clinic Website","Healthcare","Static Website","Responsive Design","Appointment Inquiry","Patient-Focused"], features:["Clinic services overview","Doctor profile and clinic information","Consultation schedule and visit hours","Clinic environment presentation","Patient testimonials and FAQs","Appointment and contact inquiry form","Responsive desktop, tablet, and mobile layout","Frontend/static delivery suitable for GitHub Pages"], screenshots:["images/projects/womens-clinic-1.png","images/projects/womens-clinic-2.png","images/projects/womens-clinic-3.png","images/projects/womens-clinic-preview.mp4"], cardPreview:"images/projects/card-womens-clinic-preview.png", cost:"₱25,000 – ₱45,000", accent:"project-cyan", live:"", source:"" }
+    { name:"Women’s Clinic Website", category:"Healthcare / OB-GYN Clinic Website", description:"A professional women’s clinic website designed to present clinic services, doctor information, schedule, FAQs, testimonials, clinic environment visuals, and appointment/contact inquiry in a clean and patient-friendly layout.", tags:["Clinic Website","Healthcare","Static Website","Responsive Design","Appointment Inquiry","Patient-Focused"], features:["Clinic services overview","Doctor profile and clinic information","Consultation schedule and visit hours","Clinic environment presentation","Patient testimonials and FAQs","Appointment and contact inquiry form","Responsive desktop, tablet, and mobile layout","Frontend/static delivery suitable for GitHub Pages"], screenshots:["images/projects/womens-clinic-1.png","images/projects/womens-clinic-2.png","images/projects/womens-clinic-3.png","images/projects/womens-clinic-preview.mp4"], cardPreview:"images/projects/card-womens-clinic-preview.png", cost:"₱25,000 – ₱45,000", accent:"project-cyan", live:"https://gabborcena12.github.io/ClinicWorks/", source:"" }
 ];
 
 const escapeHtml = value => String(value).replace(/[&<>'"]/g, character => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;","\"":"&quot;"})[character]);
@@ -122,7 +122,7 @@ function setScreenshot(project, index) {
 function openProject(index) {
     const project = projects[index];
     const links = [
-        project.live ? `<a class="button button-primary" href="${escapeHtml(project.live)}" target="_blank" rel="noopener noreferrer">Live Project ↗</a>` : "",
+        project.live ? `<a class="button button-primary" href="${escapeHtml(project.live)}" target="_blank" rel="noopener noreferrer">${project.name.includes("Clinic") ? "View Live Project" : "Live Project"} ↗</a>` : "",
         project.source ? `<a class="button button-secondary" href="${escapeHtml(project.source)}" target="_blank" rel="noopener noreferrer">View Source</a>` : ""
     ].join("");
 
@@ -203,34 +203,99 @@ function initializeRevealAnimations() {
 function initializeInquiryForm() {
     const form = document.querySelector("#inquiry-form");
     const success = document.querySelector("#inquiry-success");
-    const messages = { name:"Please enter your name.", contact:"Please add an email or Messenger contact.", projectType:"Please select a project type.", budget:"Please select a budget range.", message:"Please tell me a little about your project." };
+    const errorBox = document.querySelector("#inquiry-error");
+    const resetButton = document.querySelector("#reset-inquiry");
+    if (!form || !success) return;
+    const messages = { name:"Please enter your name.", email:"Please enter a valid email address.", message:"Please tell me a little about your project." };
+    const setError = (name, message) => {
+        const field = form.elements[name];
+        const error = document.querySelector(`[data-error="${name}"]`);
+        if (error) error.textContent = message;
+        if (field) field.classList.toggle("invalid", Boolean(message));
+    };
+    const clearStatus = () => {
+        if (!errorBox) return;
+        errorBox.textContent = "";
+        errorBox.classList.remove("is-visible");
+    };
     const validate = () => {
         let valid = true;
         Object.entries(messages).forEach(([name, message]) => {
             const field = form.elements[name];
-            let error = field.value.trim() ? "" : message;
-            if (name === "message" && field.value.trim() && field.value.trim().length < 10) error = "Please add a little more detail.";
-            document.querySelector(`[data-error="${name}"]`).textContent = error;
-            field.classList.toggle("invalid", Boolean(error));
+            const value = String(field?.value || "").trim();
+            let error = value ? "" : message;
+            if (name === "email" && value && !field.checkValidity()) error = message;
+            if (name === "message" && value && value.length < 10) error = "Please add a little more detail.";
+            setError(name, error);
             valid = valid && !error;
         });
         return valid;
     };
-    form.addEventListener("submit", event => {
+    const buildMessage = formData => {
+        const projectType = String(formData.get("projectType") || "Not sure yet").trim() || "Not sure yet";
+        const budget = String(formData.get("budget") || "Optional / To be discussed").trim() || "Optional / To be discussed";
+        const contact = String(formData.get("contact") || "Not provided").trim() || "Not provided";
+        const message = String(formData.get("message") || "").trim();
+        formData.set("message", [`Project Type: ${projectType}`, `Budget Range: ${budget}`, `Phone / Messenger: ${contact}`, "", message].join("\n"));
+    };
+    form.addEventListener("submit", async event => {
         event.preventDefault();
+        if (form.dataset.submitting === "true") return;
+        clearStatus();
         if (!validate()) return;
-        form.classList.add("static-hidden");
-        success.classList.remove("static-hidden");
+        const formData = new FormData(form);
+        if (String(formData.get("honeypot") || "").trim()) {
+            form.reset();
+            return;
+        }
+        const submitButton = form.querySelector("button[type='submit']");
+        const submitLabel = submitButton?.dataset.submitLabel || "Send Inquiry";
+        form.dataset.submitting = "true";
+        form.classList.add("is-submitting");
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.textContent = "Sending...";
+        }
+        try {
+            buildMessage(formData);
+            const response = await fetch(form.action, { method:form.method || "POST", headers:{ Accept:"application/json" }, body:formData });
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok || result.success === false) throw new Error(result.message || "The inquiry could not be sent.");
+            form.reset();
+            form.classList.add("static-hidden");
+            success.classList.remove("static-hidden");
+            if (submitButton) submitButton.textContent = "Sent";
+        } catch (error) {
+            console.error(error);
+            if (errorBox) {
+                errorBox.textContent = "Something went wrong while sending. Please try again.";
+                errorBox.classList.add("is-visible");
+            }
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = submitLabel;
+            }
+        } finally {
+            delete form.dataset.submitting;
+            form.classList.remove("is-submitting");
+        }
     });
     form.addEventListener("input", event => {
-        const error = document.querySelector(`[data-error="${event.target.name}"]`);
-        if (error && event.target.value.trim()) { error.textContent = ""; event.target.classList.remove("invalid"); }
+        if (event.target.name in messages && event.target.value.trim()) setError(event.target.name, "");
+        clearStatus();
     });
-    document.querySelector("#reset-inquiry").addEventListener("click", () => {
+    resetButton?.addEventListener("click", () => {
         form.reset();
         form.querySelectorAll(".validation-message").forEach(item => item.textContent = "");
+        form.querySelectorAll(".invalid").forEach(item => item.classList.remove("invalid"));
         success.classList.add("static-hidden");
         form.classList.remove("static-hidden");
+        const submitButton = form.querySelector("button[type='submit']");
+        if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = submitButton.dataset.submitLabel || "Send Inquiry";
+        }
+        clearStatus();
     });
 }
 

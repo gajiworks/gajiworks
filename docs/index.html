@@ -117,24 +117,30 @@
         <section id="contact" class="section section-anchor contact-section">
             <div class="container contact-grid">
                 <div class="contact-copy reveal">
-                    <div class="section-heading"><span class="eyebrow">Start a Project</span><h2>Tell me what your business needs.</h2><p>Share a few details and I’ll have the context needed to prepare the next steps. This demo form does not send data yet.</p></div>
-                    <div class="contact-points"><div><span>01</span><p><strong>Clear, direct communication</strong><small>No layers—you speak directly with me.</small></p></div><div><span>02</span><p><strong>Practical recommendations</strong><small>Options matched to your actual goals and budget.</small></p></div><div><span>03</span><p><strong>No-pressure inquiry</strong><small>Start with a conversation, not a commitment.</small></p></div></div>
+                    <div class="section-heading"><span class="eyebrow">Project Inquiry</span><h2>Start a project with clear next steps.</h2><p>Share what you need and I’ll review the details so the best option, scope, and starting budget can be clarified.</p></div>
+                    <p class="contact-helper">Not sure what type of project you need yet? No problem. Send us the details you already have, and we’ll help clarify the best option.</p>
+                    <div class="contact-points"><div><span>01</span><p><strong>Simple inquiry</strong><small>Only name, email, and message are required to start.</small></p></div><div><span>02</span><p><strong>Practical guidance</strong><small>Project type and budget can be discussed after review.</small></p></div><div><span>03</span><p><strong>No-pressure next step</strong><small>Send the details you have, even if the project is not final.</small></p></div></div>
                 </div>
                 <div class="contact-card reveal reveal-delay">
-                    <form id="inquiry-form" novalidate>
+                    <form id="inquiry-form" class="inquiry-form" action="https://api.staticforms.dev/submit" method="post" novalidate>
+                        <input type="hidden" name="apiKey" value="__STATIC_FORMS_API_KEY__">
+                        <input type="hidden" name="subject" value="New GajiWorks Project Inquiry">
+                        <input type="text" name="honeypot" class="honeypot-field" tabindex="-1" autocomplete="off" aria-hidden="true">
                         <div class="form-grid">
-                            <div class="field"><label for="name">Name</label><input id="name" name="name" placeholder="Your name"><span class="validation-message" data-error="name"></span></div>
-                            <div class="field"><label for="business">Business Name</label><input id="business" name="business" placeholder="Business or brand"></div>
-                            <div class="field field-full"><label for="contact-info">Email / Messenger</label><input id="contact-info" name="contact" placeholder="How can I reach you?"><span class="validation-message" data-error="contact"></span></div>
-                            <div class="field"><label for="project-type">Project Type</label><select id="project-type" name="projectType"><option value="">Select a project</option><option>Quick Launch Page</option><option>Business Starter Website</option><option>Business Profile / Catalog</option><option>Advanced Showcase</option><option>Business System</option><option>Web Automation &amp; Data Scraping</option></select><span class="validation-message" data-error="projectType"></span></div>
-                            <div class="field"><label for="budget">Budget Range</label><select id="budget" name="budget"><option value="">Select a range</option><option>₱8k – ₱25k</option><option>₱25k – ₱60k</option><option>₱60k – ₱120k</option><option>₱120k+</option><option>Not sure yet</option></select><span class="validation-message" data-error="budget"></span></div>
-                            <div class="field field-full"><label for="message">Message</label><textarea id="message" name="message" placeholder="Tell me about your goals, timeline, or current challenges..."></textarea><span class="validation-message" data-error="message"></span></div>
+                            <div class="field"><label for="name">Name <span>Required</span></label><input id="name" name="name" type="text" autocomplete="name" placeholder="Your name" required><span class="validation-message" data-error="name"></span></div>
+                            <div class="field"><label for="email">Email <span>Required</span></label><input id="email" name="email" type="email" autocomplete="email" placeholder="your@email.com" required><span class="validation-message" data-error="email"></span></div>
+                            <div class="field field-full"><label for="contact-info">Phone / Messenger link <span>Optional</span></label><input id="contact-info" name="contact" type="text" autocomplete="tel" placeholder="Phone number, Messenger link, or preferred contact option"><span class="validation-message" data-error="contact"></span></div>
+                            <div class="field"><label for="project-type">Project type <span>Optional</span></label><select id="project-type" name="projectType"><option value="">Not sure yet</option><option>Quick Launch Page</option><option>Business Starter Website</option><option>Business Profile / Catalog</option><option>Advanced Showcase</option><option>Business System</option><option>Web Automation &amp; Data Scraping</option></select><span class="validation-message" data-error="projectType"></span></div>
+                            <div class="field"><label for="budget">Budget range <span>Optional</span></label><select id="budget" name="budget"><option value="">Optional / To be discussed</option><option>₱5k – ₱12k</option><option>₱12k – ₱25k</option><option>₱25k – ₱45k</option><option>₱45k – ₱90k</option><option>₱80k+</option><option>Quote-based / Not sure yet</option></select><span class="validation-message" data-error="budget"></span></div>
+                            <div class="field field-full"><label for="message">Message / project details <span>Required</span></label><textarea id="message" name="message" placeholder="Tell us what you need, even if the project is not final yet." required minlength="10"></textarea><span class="validation-message" data-error="message"></span></div>
                         </div>
-                        <button class="button button-primary submit-button" type="submit">Send Inquiry <span>→</span></button><p class="form-note">Demo only—this form is not connected to email or an API.</p>
+                        <p class="form-error" id="inquiry-error" role="alert" aria-live="polite"></p>
+                        <button class="button button-primary submit-button" type="submit" data-submit-label="Send Inquiry">Send Inquiry <span>→</span></button><p class="form-note">This inquiry is sent through StaticForms. The real API key is injected during deployment.</p>
                     </form>
-                    <div class="success-state static-hidden" id="inquiry-success" role="status"><span>✓</span><h3>Inquiry received</h3><p>Thanks for sharing your project. This is a demo submission, so no message was sent.</p><button class="button button-secondary" id="reset-inquiry" type="button">Send another inquiry</button></div>
+                    <div class="success-state static-hidden" id="inquiry-success" role="status" aria-live="polite"><span>✓</span><h3>Inquiry sent</h3><p>Thank you for sharing your project details. Your inquiry was sent successfully, and the next step is to review your scope and options.</p><button class="button button-secondary" id="reset-inquiry" type="button">Send another inquiry</button></div>
                 </div>
             </div>
+            <script type="application/json" id="inquiry-config-data">{"staticFormsEndpoint":"https://api.staticforms.dev/submit","apiKey":"__STATIC_FORMS_API_KEY__","receiverEmail":"hello@gajiworks.example"}</script>
         </section>
     </main>
 
