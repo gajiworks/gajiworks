@@ -11,4 +11,5 @@ public sealed record PortfolioProject(
     string AccentClass,
     string LiveDemoUrl = "#",
     string GitHubUrl = "#",
-    string CardPreviewImage = "");
+    string CardPreviewImage = "",
+    string CardDescription = "");

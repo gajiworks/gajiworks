@@ -1,8 +1,8 @@
 const CACHE_PREFIX = "gajiworks-static-";
-const CACHE_NAME = `${CACHE_PREFIX}v1`;
+const CACHE_NAME = `${CACHE_PREFIX}v3`;
 const CORE_ASSETS = [
-    "./styles.css?v=1.0.1",
-    "./site.js?v=1.0.1",
+    "./styles.css?v=1.0.2",
+    "./site.js?v=1.0.2",
     "./gajiworks-logo.ico",
     "./images/gajiworks-logo.png"
 ];
