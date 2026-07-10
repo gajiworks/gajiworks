@@ -1,10 +1,42 @@
 <section id="pricing" class="section section-muted section-anchor">
-    <div class="container"><SectionHeading Eyebrow="Pricing Preview" Title="Practical starting points for planning." Description="Every project is scoped individually. These ranges help you identify a realistic starting budget." />
-        <div class="pricing-grid">@foreach (var package in ServicePackages.Pricing) { <article class="pricing-card @(package.Featured ? "pricing-featured" : null) reveal">@if (package.Featured) { <span class="popular-label">Popular</span> }<h3>@package.Title</h3><small>Starting range</small><strong>@package.StartingPrice</strong><p>@package.Summary</p><a href="#contact">Discuss your project <span>→</span></a></article> }</div>
-        <div class="pricing-notes">
-            <p class="pricing-note pricing-note-highlight"><span>i</span> Prices are starting estimates and may be negotiable depending on scope, timeline, and package.</p>
-            <p class="pricing-note">Discounts may be available for bundled services or suitable project scopes.</p>
-            <p class="pricing-note">Final pricing may vary depending on scope, timeline, content, features, and support package.</p>
+    <div class="container">
+        <SectionHeading Eyebrow="Pricing Preview" Title="Practical starting points for planning." Description="Every project is scoped individually. These ranges help you identify a realistic starting budget." />
+
+        <div class="pricing-grid card-list @(showAllPricing ? "is-expanded" : "is-collapsed")">
+            @foreach (var package in ServicePackages.Pricing)
+            {
+                <article class="pricing-card card-list-item @(package.Featured ? "pricing-featured" : null) reveal">
+                    @if (package.Featured)
+                    {
+                        <span class="popular-label">Popular</span>
+                    }
+                    <h3>@package.Title</h3>
+                    <small>Starting range</small>
+                    <strong>@package.StartingPrice</strong>
+                    <p>@package.Summary</p>
+                    <a href="#contact">Discuss your project <span>→</span></a>
+                </article>
+            }
         </div>
+
+        @if (ServicePackages.Pricing.Count > 1)
+        {
+            <div class="portfolio-toggle-wrap card-list-toggle-wrap">
+                <button class="button portfolio-toggle" type="button" @onclick="TogglePricing" aria-expanded="@(showAllPricing.ToString().ToLowerInvariant())">
+                    @(showAllPricing ? "Show Less" : "Show More")
+                    <span aria-hidden="true">@(showAllPricing ? "↑" : "↓")</span>
+                </button>
+            </div>
+        }
+
+        @* <div class="pricing-notes">
+            <p class="pricing-note pricing-note-highlight">Prices are starting estimates and may be negotiable depending on scope, timeline, and package.</p>
+        </div> *@
     </div>
 </section>
+
+@code {
+    private bool showAllPricing;
+
+    private void TogglePricing() => showAllPricing = !showAllPricing;
+}

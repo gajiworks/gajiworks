@@ -4,10 +4,8 @@
             <SectionHeading
                 Eyebrow="Project Inquiry"
                 Title="Start a project with clear next steps."
-                Description="Share what you need and I’ll review the details so the best option, scope, and starting budget can be clarified." />
-            <p class="contact-helper">
-                Not sure what type of project you need yet? No problem. Send us the details you already have, and we’ll help clarify the best option.
-            </p>
+                Description="Share what you need and your details will be reviewed so the best option, scope, and starting budget can be clarified." />
+            
             <div class="contact-points">
                 <div><span>01</span><p><strong>Simple inquiry</strong><small>Only name, email, and message are required to start.</small></p></div>
                 <div><span>02</span><p><strong>Practical guidance</strong><small>Project type and budget can be discussed after review.</small></p></div>
@@ -18,7 +16,7 @@
         <div class="contact-card reveal reveal-delay">
             <form id="inquiry-form" class="inquiry-form" action="https://api.staticforms.dev/submit" method="post" novalidate>
                 <input type="hidden" name="apiKey" value="__STATIC_FORMS_API_KEY__" />
-                <input type="hidden" name="subject" value="New GajiWorks Project Inquiry" />
+                <input type="hidden" name="subject" value="New Website Service Project Inquiry" />
                 <input type="text" name="honeypot" class="honeypot-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
                 <div class="form-grid">
@@ -72,7 +70,7 @@
 
                 <p class="form-error" id="inquiry-error" role="alert" aria-live="polite"></p>
                 <button class="button button-primary submit-button" type="submit" data-submit-label="Send Inquiry">Send Inquiry <span>→</span></button>
-                <p class="form-note">This inquiry is sent through StaticForms. The real API key is injected during deployment.</p>
+                <p class="form-note">By submitting this form, you agree that your provided details may be used to review your inquiry and contact you about your project. Your information will not be sold or shared for unrelated marketing purposes.</p>
             </form>
 
             <div class="success-state static-hidden" id="inquiry-success" role="status" aria-live="polite">

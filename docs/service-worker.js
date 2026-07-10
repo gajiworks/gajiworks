@@ -1,10 +1,11 @@
 const CACHE_PREFIX = "gajiworks-static-";
-const CACHE_NAME = `${CACHE_PREFIX}v3`;
+const CACHE_NAME = `${CACHE_PREFIX}v5`;
 const CORE_ASSETS = [
-    "./styles.css?v=1.0.2",
-    "./site.js?v=1.0.2",
-    "./gajiworks-logo.ico",
-    "./images/gajiworks-logo.png"
+    "./styles.css?v=1.0.4",
+    "./site.js?v=1.0.4",
+    "./gajiworks-option4.ico",
+    "./images/gajiworks-option4-logo.svg",
+    "./images/gajiworks-option4-mark.png"
 ];
 const CACHEABLE_DESTINATIONS = new Set(["style", "script", "font", "image"]);
 

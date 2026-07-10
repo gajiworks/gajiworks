@@ -1,11 +1,27 @@
 <section id="services" class="section section-anchor">
     <div class="container">
         <SectionHeading Eyebrow="Services" Title="The right solution for where your business is now." Description="Focused options for building a stronger online presence or improving day-to-day operations." />
-        <div class="services-grid">
+        <div class="services-grid card-list @(showAllServices ? "is-expanded" : "is-collapsed")">
             @foreach (var service in ServicePackages.All)
             {
-                <article class="service-card service-card-compact reveal"><div class="service-number">@service.Icon</div><div><h3>@service.Title</h3><p class="best-for"><span>For clients who</span> @service.BestFor</p></div></article>
+                <article class="service-card service-card-compact card-list-item reveal"><div class="service-number">@service.Icon</div><div><h3>@service.Title</h3><p class="best-for"><span>For clients who</span> @service.BestFor</p></div></article>
             }
         </div>
+
+        @if (ServicePackages.All.Count > 1)
+        {
+            <div class="portfolio-toggle-wrap card-list-toggle-wrap">
+                <button class="button portfolio-toggle" type="button" @onclick="ToggleServices" aria-expanded="@(showAllServices.ToString().ToLowerInvariant())">
+                    @(showAllServices ? "Show Less" : "Show More")
+                    <span aria-hidden="true">@(showAllServices ? "↑" : "↓")</span>
+                </button>
+            </div>
+        }
     </div>
 </section>
+
+@code {
+    private bool showAllServices;
+
+    private void ToggleServices() => showAllServices = !showAllServices;
+}

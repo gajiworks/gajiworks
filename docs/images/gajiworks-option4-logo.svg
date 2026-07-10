@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="620" height="84" viewBox="0 0 620 84" role="img" aria-labelledby="title desc">
+  <title id="title">GajiWorks logo</title>
+  <desc id="desc">Minimal GajiWorks logo in muted copper and off-white for a dark website theme.</desc>
+  <rect width="620" height="84" fill="none"/>
+  <g transform="translate(8 8)">
+    <rect x="0" y="0" width="68" height="68" rx="18" fill="#111111" stroke="#B86A45" stroke-width="2"/>
+    <path d="M34 13.5 52.5 24v20L34 54.5 15.5 44V24L34 13.5Z" fill="none" stroke="#F5F2EE" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M23.5 34h21m-8.5-8.5 8.5 8.5-8.5 8.5" fill="none" stroke="#B86A45" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="34" cy="34" r="3.2" fill="#B86A45"/>
+  </g>
+  <g transform="translate(94 20)">
+    <text x="0" y="24" fill="#F5F2EE" font-family="Manrope, Arial, sans-serif" font-size="28" font-weight="800" letter-spacing="0.5">Gaji<tspan fill="#B86A45">Works</tspan></text>
+    <text x="1" y="51" fill="#CFC7BF" font-family="Manrope, Arial, sans-serif" font-size="12.5" font-weight="800" letter-spacing=".55">BRAND OF AN INDEPENDENT WEBSITE SERVICE PROVIDER</text>
+  </g>
+</svg>

@@ -15,8 +15,32 @@ export function initializeSiteNavigation() {
         activeLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${visible.target.id}`));
     }, { rootMargin: '-25% 0px -60% 0px', threshold: [0.05, 0.2, 0.5] });
     sections.forEach(section => observer.observe(section));
-    const revealObserver = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); revealObserver.unobserve(entry.target); } }), { threshold: 0.08 });
-    document.querySelectorAll('.reveal').forEach(element => revealObserver.observe(element));
+    const sectionRevealTargets = '.section-anchor';
+    const revealTargets = [
+        '.reveal',
+        '.section-heading',
+        '.lead-copy',
+        '.industry-card',
+        '.service-card',
+        '.project-card',
+        '.process-step',
+        '.pricing-card',
+        '.contact-card',
+        '.contact-points > div',
+        '.hero-trust',
+        '.pricing-note'
+    ].join(',');
+    const revealObserver = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); revealObserver.unobserve(entry.target); } }), { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+    document.querySelectorAll(sectionRevealTargets).forEach(element => {
+        element.classList.add('section-reveal');
+        revealObserver.observe(element);
+    });
+    document.querySelectorAll(revealTargets).forEach((element, index) => {
+        const delay = Math.min(index % 6, 5) * 45;
+        element.style.setProperty('--reveal-delay', `${delay}ms`);
+        element.classList.add('reveal');
+        revealObserver.observe(element);
+    });
     window.addEventListener('scroll', () => header?.classList.toggle('is-scrolled', window.scrollY > 20), { passive: true });
 }
 
